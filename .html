@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>My Wishlist</h1>
+        <div id="wishlist"></div>
+        <form id="addItemForm">
+            <input type="text" id="itemName" placeholder="Enter item name">
+            <button type="submit">Add to Wishlist</button>
+        </form>
+    </div>
+
+    <script src="script.js">
+        // Sample data (simulating backend)
+let wishlistItems = [
+    { id: 1, name: 'Item 1' },
+    { id: 2, name: 'Item 2' },
+    { id: 3, name: 'Item 3' }
+];
+
+// Function to display wishlist items
+function displayWishlist() {
+    const wishlistContainer = document.getElementById('wishlist');
+    wishlistContainer.innerHTML = '';
+
+    wishlistItems.forEach(item => {
+        const wishlistItem = document.createElement('div');
+        wishlistItem.classList.add('wishlist-item');
+        wishlistItem.innerHTML = `
+            <span>${item.name}</span>
+            <button onclick="removeItem(${item.id})">Remove</button>
+        `;
+        wishlistContainer.appendChild(wishlistItem);
+    });
+}
+
+// Function to add an item to the wishlist
+function addItem(event) {
+    event.preventDefault();
+    const itemNameInput = document.getElementById('itemName');
+    const itemName = itemNameInput.value.trim();
+
+    if (itemName) {
+        const newItem = {
+            id: wishlistItems.length + 1,
+            name: itemName
+        };
+        wishlistItems.push(newItem);
+        displayWishlist();
+        itemNameInput.value = '';
+    }
+}
+
+// Function to remove an item from the wishlist
+function removeItem(itemId) {
+    wishlistItems = wishlistItems.filter(item => item.id !== itemId);
+    displayWishlist();
+}
+
+// Display initial wishlist
+displayWishlist();
+
+// Add event listener to form submission
+document.getElementById('addItemForm').addEventListener('submit', addItem);
+
+    </script>
+</body>
+</html>
